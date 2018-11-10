@@ -1,0 +1,41 @@
+{
+  "name": "samstest0",
+  "version": "0.0.1",
+  "description": "",
+  "main": "serverless.yml",
+  "scripts": {
+    "start": "sls offline start --port 3010"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "aws-sdk": "^2.205.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-lodash": "^3.3.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "copy-webpack-plugin": "^4.3.1",
+    "file-loader": "^1.1.6",
+    "serverless-nested-stack": "0.0.7",
+    "serverless-offline": "^3.31.2",
+    "serverless-plugin-split-stacks": "^1.4.1",
+    "serverless-plugin-warmup": "^3.5.0-rc.1",
+    "serverless-webpack": "^4.2.0",
+    "webpack": "^3.10.0",
+    "webpack-node-externals": "^1.6.0"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "babel-runtime": "^6.26.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.2.1",
+    "lodash": "^4.17.5",
+    "mongoose": "^5.0.11",
+    "mongoose-unique-validator": "^2.0.0",
+    "node-lambda-toolkit": "0.0.19",
+    "request": "^2.88.0",
+    "source-map-support": "^0.5.3"
+  }
+}

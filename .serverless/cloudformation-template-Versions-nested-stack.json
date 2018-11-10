@@ -1,0 +1,67 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "VersionsNestedStack nested stack",
+  "Parameters": {
+    "ListCommentsLambdaFunctionParameter": {
+      "Type": "String"
+    },
+    "AddCommentLambdaFunctionParameter": {
+      "Type": "String"
+    },
+    "DeleteCommentsLambdaFunctionParameter": {
+      "Type": "String"
+    }
+  },
+  "Resources": {
+    "ListCommentsLambdaVersionmEOPyL2bdU1EegcDmUW2sKPexFOk043voeXk30XxwA": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "ListCommentsLambdaFunctionParameter"
+        },
+        "CodeSha256": "g1CqlHZuG0brEB5pA2ARQdU863KwBEczjl7GpIsjoio="
+      },
+      "DependsOn": []
+    },
+    "AddCommentLambdaVersionAxvlfZb6SBW45zYOI3qRpsYtdzuVwXIMcYUWp9vjbN0": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "AddCommentLambdaFunctionParameter"
+        },
+        "CodeSha256": "g1CqlHZuG0brEB5pA2ARQdU863KwBEczjl7GpIsjoio="
+      },
+      "DependsOn": []
+    },
+    "DeleteCommentsLambdaVersionUKFhU0cR6i3ZKW7q7CyfzQNQF35DJZibKuEzA2RsV4": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "DeleteCommentsLambdaFunctionParameter"
+        },
+        "CodeSha256": "g1CqlHZuG0brEB5pA2ARQdU863KwBEczjl7GpIsjoio="
+      },
+      "DependsOn": []
+    }
+  },
+  "Outputs": {
+    "DeleteCommentsLambdaVersionUKFhU0cR6i3ZKW7q7CyfzQNQF35DJZibKuEzA2RsV4": {
+      "Value": {
+        "Ref": "DeleteCommentsLambdaVersionUKFhU0cR6i3ZKW7q7CyfzQNQF35DJZibKuEzA2RsV4"
+      }
+    },
+    "AddCommentLambdaVersionAxvlfZb6SBW45zYOI3qRpsYtdzuVwXIMcYUWp9vjbN0": {
+      "Value": {
+        "Ref": "AddCommentLambdaVersionAxvlfZb6SBW45zYOI3qRpsYtdzuVwXIMcYUWp9vjbN0"
+      }
+    },
+    "ListCommentsLambdaVersionmEOPyL2bdU1EegcDmUW2sKPexFOk043voeXk30XxwA": {
+      "Value": {
+        "Ref": "ListCommentsLambdaVersionmEOPyL2bdU1EegcDmUW2sKPexFOk043voeXk30XxwA"
+      }
+    }
+  }
+}

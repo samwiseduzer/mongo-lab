@@ -1,0 +1,783 @@
+{
+  "service": {
+    "service": "MongoLab",
+    "serviceObject": {
+      "name": "MongoLab"
+    },
+    "provider": {
+      "stage": "development",
+      "region": "us-east-1",
+      "variableSyntax": "\\${([ ~:a-zA-Z0-9._'\",\\-\\/\\(\\)]+?)}",
+      "name": "aws",
+      "runtime": "nodejs8.10",
+      "profile": "personal",
+      "environment": {
+        "NODE_ENV": "development",
+        "PRODUCT_NAME": "MongoLab",
+        "ADDING_INDICES": false,
+        "MONGO_DB_CONN_STR": "mongodb://admin:MMvNX68sGb5pkCIj@cluster0-shard-00-00-ms4lz.mongodb.net:27017,cluster0-shard-00-01-ms4lz.mongodb.net:27017,cluster0-shard-00-02-ms4lz.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true"
+      },
+      "versionFunctions": true,
+      "remoteFunctionData": null,
+      "compiledCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "ServerlessDeploymentBucket": {
+            "Type": "AWS::S3::Bucket",
+            "DependsOn": []
+          },
+          "ListCommentsLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/MongoLab-development-listComments"
+            },
+            "DependsOn": []
+          },
+          "AddCommentLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/MongoLab-development-addComment"
+            },
+            "DependsOn": []
+          },
+          "DeleteCommentsLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/MongoLab-development-deleteComments"
+            },
+            "DependsOn": []
+          },
+          "IamRoleLambdaExecution": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+              "AssumeRolePolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Principal": {
+                      "Service": [
+                        "lambda.amazonaws.com"
+                      ]
+                    },
+                    "Action": [
+                      "sts:AssumeRole"
+                    ]
+                  }
+                ]
+              },
+              "Policies": [
+                {
+                  "PolicyName": {
+                    "Fn::Join": [
+                      "-",
+                      [
+                        "development",
+                        "MongoLab",
+                        "lambda"
+                      ]
+                    ]
+                  },
+                  "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:CreateLogStream"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/MongoLab-development-listComments:*"
+                          },
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/MongoLab-development-addComment:*"
+                          },
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/MongoLab-development-deleteComments:*"
+                          }
+                        ]
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:PutLogEvents"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/MongoLab-development-listComments:*:*"
+                          },
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/MongoLab-development-addComment:*:*"
+                          },
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/MongoLab-development-deleteComments:*:*"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "Path": "/",
+              "RoleName": {
+                "Fn::Join": [
+                  "-",
+                  [
+                    "MongoLab",
+                    "development",
+                    "us-east-1",
+                    "lambdaRole"
+                  ]
+                ]
+              }
+            },
+            "DependsOn": []
+          },
+          "ListCommentsLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/MongoLab/development/1541842303338-2018-11-10T09:31:43.338Z/MongoLab.zip"
+              },
+              "FunctionName": "MongoLab-development-listComments",
+              "Handler": "functions/listComments.handler",
+              "MemorySize": 1024,
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              },
+              "Runtime": "nodejs8.10",
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "NODE_ENV": "development",
+                  "PRODUCT_NAME": "MongoLab",
+                  "ADDING_INDICES": false,
+                  "MONGO_DB_CONN_STR": "mongodb://admin:MMvNX68sGb5pkCIj@cluster0-shard-00-00-ms4lz.mongodb.net:27017,cluster0-shard-00-01-ms4lz.mongodb.net:27017,cluster0-shard-00-02-ms4lz.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true"
+                }
+              }
+            },
+            "DependsOn": [
+              "ListCommentsLogGroup",
+              "IamRoleLambdaExecution"
+            ]
+          },
+          "AddCommentLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/MongoLab/development/1541842303338-2018-11-10T09:31:43.338Z/MongoLab.zip"
+              },
+              "FunctionName": "MongoLab-development-addComment",
+              "Handler": "functions/addComment.handler",
+              "MemorySize": 1024,
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              },
+              "Runtime": "nodejs8.10",
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "NODE_ENV": "development",
+                  "PRODUCT_NAME": "MongoLab",
+                  "ADDING_INDICES": false,
+                  "MONGO_DB_CONN_STR": "mongodb://admin:MMvNX68sGb5pkCIj@cluster0-shard-00-00-ms4lz.mongodb.net:27017,cluster0-shard-00-01-ms4lz.mongodb.net:27017,cluster0-shard-00-02-ms4lz.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true"
+                }
+              }
+            },
+            "DependsOn": [
+              "AddCommentLogGroup",
+              "IamRoleLambdaExecution"
+            ]
+          },
+          "DeleteCommentsLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/MongoLab/development/1541842303338-2018-11-10T09:31:43.338Z/MongoLab.zip"
+              },
+              "FunctionName": "MongoLab-development-deleteComments",
+              "Handler": "functions/deleteComments.handler",
+              "MemorySize": 1024,
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              },
+              "Runtime": "nodejs8.10",
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "NODE_ENV": "development",
+                  "PRODUCT_NAME": "MongoLab",
+                  "ADDING_INDICES": false,
+                  "MONGO_DB_CONN_STR": "mongodb://admin:MMvNX68sGb5pkCIj@cluster0-shard-00-00-ms4lz.mongodb.net:27017,cluster0-shard-00-01-ms4lz.mongodb.net:27017,cluster0-shard-00-02-ms4lz.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true"
+                }
+              }
+            },
+            "DependsOn": [
+              "DeleteCommentsLogGroup",
+              "IamRoleLambdaExecution"
+            ]
+          },
+          "ApiGatewayMethodCommentsOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true,
+                    "method.response.header.Access-Control-Allow-Credentials": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE,POST,GET'",
+                      "method.response.header.Access-Control-Allow-Credentials": "'false'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Fn::GetAtt": [
+                  "APINestedStack",
+                  "Outputs.ApiGatewayResourceComments"
+                ]
+              },
+              "RestApiId": {
+                "Fn::GetAtt": [
+                  "APINestedStack",
+                  "Outputs.ApiGatewayRestApi"
+                ]
+              }
+            },
+            "DependsOn": [
+              "APINestedStack"
+            ]
+          },
+          "ApiGatewayMethodCommentsGet": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "GET",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Fn::GetAtt": [
+                  "APINestedStack",
+                  "Outputs.ApiGatewayResourceComments"
+                ]
+              },
+              "RestApiId": {
+                "Fn::GetAtt": [
+                  "APINestedStack",
+                  "Outputs.ApiGatewayRestApi"
+                ]
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "ListCommentsLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "APINestedStack"
+            ]
+          },
+          "ApiGatewayMethodCommentsPost": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "POST",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Fn::GetAtt": [
+                  "APINestedStack",
+                  "Outputs.ApiGatewayResourceComments"
+                ]
+              },
+              "RestApiId": {
+                "Fn::GetAtt": [
+                  "APINestedStack",
+                  "Outputs.ApiGatewayRestApi"
+                ]
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "AddCommentLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "APINestedStack"
+            ]
+          },
+          "ApiGatewayMethodCommentsDelete": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "DELETE",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Fn::GetAtt": [
+                  "APINestedStack",
+                  "Outputs.ApiGatewayResourceComments"
+                ]
+              },
+              "RestApiId": {
+                "Fn::GetAtt": [
+                  "APINestedStack",
+                  "Outputs.ApiGatewayRestApi"
+                ]
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "DeleteCommentsLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "APINestedStack"
+            ]
+          },
+          "ApiGatewayDeployment1541842303433": {
+            "Type": "AWS::ApiGateway::Deployment",
+            "Properties": {
+              "RestApiId": {
+                "Fn::GetAtt": [
+                  "APINestedStack",
+                  "Outputs.ApiGatewayRestApi"
+                ]
+              },
+              "StageName": "development"
+            },
+            "DependsOn": [
+              "ApiGatewayMethodCommentsOptions",
+              "ApiGatewayMethodCommentsGet",
+              "ApiGatewayMethodCommentsPost",
+              "ApiGatewayMethodCommentsDelete",
+              "APINestedStack"
+            ]
+          },
+          "PermissionsNestedStack": {
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+              "Parameters": {
+                "ApiGatewayRestApiParameter": {
+                  "Fn::GetAtt": [
+                    "APINestedStack",
+                    "Outputs.ApiGatewayRestApi"
+                  ]
+                },
+                "ListCommentsLambdaFunctionArnParameter": {
+                  "Fn::GetAtt": [
+                    "ListCommentsLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "AddCommentLambdaFunctionArnParameter": {
+                  "Fn::GetAtt": [
+                    "AddCommentLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "DeleteCommentsLambdaFunctionArnParameter": {
+                  "Fn::GetAtt": [
+                    "DeleteCommentsLambdaFunction",
+                    "Arn"
+                  ]
+                }
+              },
+              "TemplateURL": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "https://s3.amazonaws.com",
+                    {
+                      "Ref": "ServerlessDeploymentBucket"
+                    },
+                    "serverless/MongoLab/development/1541842303338-2018-11-10T09:31:43.338Z",
+                    "cloudformation-template-Permissions-nested-stack.json"
+                  ]
+                ]
+              }
+            },
+            "DependsOn": [
+              "APINestedStack",
+              "ListCommentsLambdaFunction",
+              "AddCommentLambdaFunction",
+              "DeleteCommentsLambdaFunction"
+            ]
+          },
+          "APINestedStack": {
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+              "Parameters": {},
+              "TemplateURL": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "https://s3.amazonaws.com",
+                    {
+                      "Ref": "ServerlessDeploymentBucket"
+                    },
+                    "serverless/MongoLab/development/1541842303338-2018-11-10T09:31:43.338Z",
+                    "cloudformation-template-API-nested-stack.json"
+                  ]
+                ]
+              }
+            }
+          },
+          "VersionsNestedStack": {
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+              "Parameters": {
+                "ListCommentsLambdaFunctionParameter": {
+                  "Ref": "ListCommentsLambdaFunction"
+                },
+                "AddCommentLambdaFunctionParameter": {
+                  "Ref": "AddCommentLambdaFunction"
+                },
+                "DeleteCommentsLambdaFunctionParameter": {
+                  "Ref": "DeleteCommentsLambdaFunction"
+                }
+              },
+              "TemplateURL": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "https://s3.amazonaws.com",
+                    {
+                      "Ref": "ServerlessDeploymentBucket"
+                    },
+                    "serverless/MongoLab/development/1541842303338-2018-11-10T09:31:43.338Z",
+                    "cloudformation-template-Versions-nested-stack.json"
+                  ]
+                ]
+              }
+            },
+            "DependsOn": [
+              "ListCommentsLambdaFunction",
+              "AddCommentLambdaFunction",
+              "DeleteCommentsLambdaFunction"
+            ]
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": {
+              "Ref": "ServerlessDeploymentBucket"
+            }
+          },
+          "ListCommentsLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Fn::GetAtt": [
+                "VersionsNestedStack",
+                "Outputs.ListCommentsLambdaVersionmEOPyL2bdU1EegcDmUW2sKPexFOk043voeXk30XxwA"
+              ]
+            }
+          },
+          "AddCommentLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Fn::GetAtt": [
+                "VersionsNestedStack",
+                "Outputs.AddCommentLambdaVersionAxvlfZb6SBW45zYOI3qRpsYtdzuVwXIMcYUWp9vjbN0"
+              ]
+            }
+          },
+          "DeleteCommentsLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Fn::GetAtt": [
+                "VersionsNestedStack",
+                "Outputs.DeleteCommentsLambdaVersionUKFhU0cR6i3ZKW7q7CyfzQNQF35DJZibKuEzA2RsV4"
+              ]
+            }
+          },
+          "ServiceEndpoint": {
+            "Description": "URL of the service endpoint",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  "https://",
+                  {
+                    "Fn::GetAtt": [
+                      "APINestedStack",
+                      "Outputs.ApiGatewayRestApi"
+                    ]
+                  },
+                  ".execute-api.us-east-1.",
+                  {
+                    "Ref": "AWS::URLSuffix"
+                  },
+                  "/development"
+                ]
+              ]
+            }
+          }
+        }
+      },
+      "coreCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "ServerlessDeploymentBucket": {
+            "Type": "AWS::S3::Bucket"
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": {
+              "Ref": "ServerlessDeploymentBucket"
+            }
+          }
+        }
+      },
+      "vpc": {}
+    },
+    "custom": {
+      "webpackIncludeModules": true
+    },
+    "plugins": [
+      "serverless-webpack",
+      "serverless-offline",
+      "serverless-plugin-split-stacks"
+    ],
+    "pluginsData": {},
+    "functions": {
+      "listComments": {
+        "handler": "functions/listComments.handler",
+        "events": [
+          {
+            "http": {
+              "cors": {
+                "origins": [
+                  "*"
+                ],
+                "origin": "*",
+                "methods": [
+                  "OPTIONS",
+                  "GET"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
+              "path": "comments",
+              "method": "get",
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "name": "MongoLab-development-listComments",
+        "package": {
+          "artifact": ".serverless/MongoLab.zip"
+        },
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "nodejs8.10",
+        "vpc": {}
+      },
+      "addComment": {
+        "handler": "functions/addComment.handler",
+        "events": [
+          {
+            "http": {
+              "cors": {
+                "origins": [
+                  "*"
+                ],
+                "origin": "*",
+                "methods": [
+                  "OPTIONS",
+                  "POST"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
+              "path": "comments",
+              "method": "post",
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "name": "MongoLab-development-addComment",
+        "package": {
+          "artifact": ".serverless/MongoLab.zip"
+        },
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "nodejs8.10",
+        "vpc": {}
+      },
+      "deleteComments": {
+        "handler": "functions/deleteComments.handler",
+        "events": [
+          {
+            "http": {
+              "cors": {
+                "origins": [
+                  "*"
+                ],
+                "origin": "*",
+                "methods": [
+                  "OPTIONS",
+                  "DELETE"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
+              "path": "comments",
+              "method": "delete",
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "name": "MongoLab-development-deleteComments",
+        "package": {
+          "artifact": ".serverless/MongoLab.zip"
+        },
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "nodejs8.10",
+        "vpc": {}
+      }
+    }
+  },
+  "package": {
+    "artifactDirectoryName": "serverless/MongoLab/development/1541842303338-2018-11-10T09:31:43.338Z",
+    "artifact": ""
+  }
+}

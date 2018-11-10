@@ -1,0 +1,47 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "APINestedStack nested stack",
+  "Parameters": {},
+  "Resources": {
+    "ApiGatewayResourceComments": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "ApiGatewayRestApi",
+            "RootResourceId"
+          ]
+        },
+        "PathPart": "comments",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      },
+      "DependsOn": []
+    },
+    "ApiGatewayRestApi": {
+      "Type": "AWS::ApiGateway::RestApi",
+      "Properties": {
+        "Name": "development-MongoLab",
+        "EndpointConfiguration": {
+          "Types": [
+            "EDGE"
+          ]
+        }
+      },
+      "DependsOn": []
+    }
+  },
+  "Outputs": {
+    "ApiGatewayRestApi": {
+      "Value": {
+        "Ref": "ApiGatewayRestApi"
+      }
+    },
+    "ApiGatewayResourceComments": {
+      "Value": {
+        "Ref": "ApiGatewayResourceComments"
+      }
+    }
+  }
+}
